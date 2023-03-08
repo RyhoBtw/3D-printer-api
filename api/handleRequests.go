@@ -16,6 +16,7 @@ func HandleRequests() {
 		g.GET("/print", HomePage)
 		g.GET("/print/status", printer.GetStatus)
 		g.GET("/print/login", db.Login)
+		g.GET("/print/logout", db.Logout)
 		//g.POST("/print/Gcode", printer.PostGcode)
 	}
 	r.Run()

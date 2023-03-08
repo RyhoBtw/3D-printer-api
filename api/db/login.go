@@ -9,7 +9,7 @@ import (
 	"golang.org/x/exp/rand"
 )
 
-type TemplateRequest struct {
+type TemplateRequestLogin struct {
 	User     string `form:"user"`
 	Passwort string `form:"passwort"`
 }
@@ -20,26 +20,26 @@ type LoginResponse struct {
 
 func Login(c *gin.Context) {
 	var loginResponse LoginResponse
-	var request TemplateRequest
+	var request TemplateRequestLogin
 	err := c.Bind(&request)
 	if err != nil {
 		log.Log().Infoln(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
 
-	if TestForLogin(request) == true {
+	if TestForLoginValues(request) == true {
 		apiKey := GenerateApiKey(request, 20)
 
 		loginResponse.Key = apiKey
 		log.Log().Infof("New ApiKey generated: %s", apiKey)
 		c.JSON(http.StatusOK, gin.H{"key": loginResponse.Key})
 	} else {
-		c.JSON(http.StatusOK, gin.H{"code": "ACCSESS_DENYED", "message": "403 Forbidden"})
+		c.JSON(http.StatusOK, gin.H{"code": "403", "message": "Forbidden"})
 	}
 	//c.Data(http.StatusOK, gin.MIMEJSON, []byte(request.Id))
 }
 
-func TestForLogin(request TemplateRequest) bool {
+func TestForLoginValues(request TemplateRequestLogin) bool {
 	var user User
 	//db := ConnectToDatabase()
 	db := OpenDB()
@@ -60,7 +60,7 @@ func TestForLogin(request TemplateRequest) bool {
 
 }
 
-func GenerateApiKey(request TemplateRequest, n int) string {
+func GenerateApiKey(request TemplateRequestLogin, n int) string {
 	db := OpenDB()
 	defer db.Close()
 	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
