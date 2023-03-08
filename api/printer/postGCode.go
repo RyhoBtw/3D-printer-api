@@ -1,6 +1,15 @@
 package printer
 
-func PostGcode() {
+import (
+	"bytes"
+	"fmt"
+	"io"
+	"mime/multipart"
+	"net/http"
+	"os"
+)
+
+func PostGcode(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, "Upload files\n")
 	postFile(r.Form.Get("file"), "/uploads")
 }

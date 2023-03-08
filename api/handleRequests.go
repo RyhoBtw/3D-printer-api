@@ -1,26 +1,28 @@
 package api
 
 import (
-	"fmt"
-	"log"
 	"net/http"
 
-	"github.com/RyhoBtw/3D-printer-api/api/printer"
 	"github.com/RyhoBtw/3D-printer-api/api/db"
-	"github.com/gorilla/mux"
+	"github.com/RyhoBtw/3D-printer-api/api/printer"
+	"github.com/gin-gonic/gin"
 )
 
 // handle api requests
-func handleRequests() {
-	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/print", HomePage)
-	router.HandleFunc("/print/status", printer.GetStatus)
-	router.HandleFunc("/print/login{info}", db.login)
-	router.HandleFunc("/print/Gcode", printer.PostGcode).Methods("POST")
-	log.Log().Fatal(http.ListenAndServe(":8000", router))
+func HandleRequests() {
+	r := gin.Default()
+	g := r.Group("/api/v1")
+	{
+		g.GET("/print", HomePage)
+		g.GET("/print/status", printer.GetStatus)
+		g.GET("/print/login", db.Login)
+		//g.POST("/print/Gcode", printer.PostGcode)
+	}
+	r.Run()
 }
 
-func HomePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Print API")
-	fmt.Println("Endpoint Hit: homePage")
+func HomePage(c *gin.Context) {
+	//jsonData := []byte(`404 Not Found`)
+	c.JSON(http.StatusNotFound, gin.H{"code": "PAGE_NOT_FOUND", "message": "404 page not found"})
+	//c.Data(http.StatusOK, gin.MIMEJSON, jsonData)
 }

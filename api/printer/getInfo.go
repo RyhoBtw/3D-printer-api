@@ -1,6 +1,15 @@
 package printer
 
-func GetStatus(w http.ResponseWriter, r *http.Request) {
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+
+	"github.com/RyhoBtw/3D-printer-api/log"
+	"github.com/gin-gonic/gin"
+)
+
+func GetStatus(c *gin.Context) {
 	cl := http.DefaultClient
 	link := fmt.Sprintf("172.129.0.1:8000")
 	req, _ := http.NewRequest("GET", link, nil)
@@ -12,5 +21,5 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 
 	body, err := ioutil.ReadAll(resp.Body)
 
-	fmt.Println(PrettyPrint(result))
+	fmt.Println(body)
 }
