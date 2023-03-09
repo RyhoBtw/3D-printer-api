@@ -12,6 +12,7 @@ var config *Config
 type Config struct {
 	RaspberryPiIp string
 	DbIp          string
+	LogLevel      string
 }
 
 func LoadConfig() {

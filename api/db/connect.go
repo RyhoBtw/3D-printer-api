@@ -12,7 +12,7 @@ const (
 	DB_HOST = "IP"
 	DB_NAME = "3D_Print"
 	DB_USER = "root"
-	DB_PASS = "PASSWORD"
+	DB_PASS = "Password"
 )
 
 type User struct {
