@@ -9,17 +9,21 @@ import (
 )
 
 const (
-	DB_HOST = "85.214.129.9:33060"
+	DB_HOST = "IP"
 	DB_NAME = "3D_Print"
 	DB_USER = "root"
-	DB_PASS = "mysqlpw"
+	DB_PASS = "PASSWORD"
 )
 
 type User struct {
-	Id       int    `json:"id"`
-	User     string `json:"user"`
-	Passwort string `json:"passwort"`
-	LoginKey string `json:"loginKey"`
+	Id        int    `json:"id"`
+	Firstname string `form:"firstname"`
+	Lastname  string `form:"lastname"`
+	Username  string `form:"username"`
+	Password  string `form:"password"`
+	Email     string `form:"email"`
+	TNR       string `form:"tnr"`
+	LoginKey  string `json:"loginKey"`
 }
 
 func dsn(dbName string) string {
@@ -61,7 +65,7 @@ func GetInfo() {
 
 	for rows.Next() {
 		var user User
-		_ = rows.Scan(&user.Id, &user.User, &user.Passwort, &user.LoginKey)
+		_ = rows.Scan(&user.Id, &user.Username, &user.Password, &user.LoginKey)
 		/*if err != nil {
 			panic(err.Error())
 		}*/
