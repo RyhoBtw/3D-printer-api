@@ -10,8 +10,8 @@ import (
 )
 
 type TemplateRequestLogin struct {
-	User     string `form:"user"`
-	Passwort string `form:"passwort"`
+	Username string `form:"username"`
+	Password string `form:"password"`
 }
 
 type LoginResponse struct {
@@ -45,14 +45,14 @@ func TestForLoginValues(request TemplateRequestLogin) bool {
 	db := OpenDB()
 	defer db.Close()
 
-	q := fmt.Sprintf("SELECT user, passwort FROM user WHERE user = '%s' AND passwort = '%s'", request.User, request.Passwort)
+	q := fmt.Sprintf("SELECT username, password FROM user WHERE username = '%s' AND password = '%s'", request.Username, request.Password)
 	//log.Log().Infoln(q)
 	row, _ := db.Query(q)
 	for row.Next() {
-		_ = row.Scan(&user.User, &user.Passwort)
+		_ = row.Scan(&user.Username, &user.Password)
 		fmt.Printf("%v\n", user)
 	}
-	if user.User != "" {
+	if user.Username != "" {
 		return true
 	} else {
 		return false
@@ -63,14 +63,15 @@ func TestForLoginValues(request TemplateRequestLogin) bool {
 func GenerateApiKey(request TemplateRequestLogin, n int) string {
 	db := OpenDB()
 	defer db.Close()
-	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+	var charset = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
-	s := make([]rune, n)
+	s := make([]byte, n)
 	for i := range s {
-		s[i] = letters[rand.Intn(len(letters))]
+		// randomly select 1 character from given charset
+		s[i] = charset[rand.Intn(len(charset))]
 	}
 
-	q := fmt.Sprintf("UPDATE user SET loginKey = '%s' WHERE user = '%s' AND passwort = '%s'", string(s), request.User, request.Passwort)
+	q := fmt.Sprintf("UPDATE user SET loginKey = '%s' WHERE username = '%s' AND password = '%s'", string(s), request.Username, request.Password)
 	result, err := db.Exec(q)
 	if err != nil {
 		panic(err.Error())
