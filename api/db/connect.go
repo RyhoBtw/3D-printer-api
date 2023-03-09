@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	DB_HOST = "85.214.129.9:33060"
+	DB_HOST = "85.214.129.9"
 	DB_NAME = "3D_Print"
 	DB_USER = "root"
-	DB_PASS = "mysqlpw"
+	DB_PASS = "mysql"
 )
 
 type User struct {
