@@ -3,8 +3,8 @@ package api
 import (
 	"net/http"
 
-	"github.com/RyhoBtw/3D-printer-api/api/db"
 	"github.com/RyhoBtw/3D-printer-api/api/printer"
+	"github.com/RyhoBtw/3D-printer-api/api/user"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,10 +15,10 @@ func HandleRequests() {
 	{
 		g.GET("/print", HomePage)
 		g.GET("/print/status", printer.GetStatus)
-		g.GET("/print/login", db.Login)
-		g.GET("/print/logout", db.Logout)
-		g.GET("/print/newUser", db.NewUser)
-		g.GET("/print/deletUser", db.DeletUser)
+		g.GET("/print/login", user.Login)
+		g.GET("/print/logout", user.Logout)
+		g.GET("/print/newUser", user.NewUser)
+		g.GET("/print/deletUser", user.DeletUser)
 		//g.POST("/print/Gcode", printer.PostGcode)
 	}
 	r.Run()

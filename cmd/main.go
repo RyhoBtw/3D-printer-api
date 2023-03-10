@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/RyhoBtw/3D-printer-api/api"
-	"github.com/RyhoBtw/3D-printer-api/api/db"
+	"github.com/RyhoBtw/3D-printer-api/api/database"
 )
 
 func main() {
-	db.ConnectToDatabase()
+	database.ConnectToDatabase()
 	api.HandleRequests()
 }
