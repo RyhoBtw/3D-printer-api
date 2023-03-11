@@ -30,7 +30,7 @@ func ReturnAllProducts(c *gin.Context) {
 		}
 
 		fmt.Printf("%v\n", products)
-		c.JSON(http.StatusOK, gin.H{"product": products})
+		c.JSON(http.StatusOK, products)
 		//json.NewEncoder(w).Encode(nginx)
 	}
 }
